@@ -1,0 +1,22 @@
+version: '3'
+
+networks:
+    frontend:
+        driver: bridge
+
+services:
+    frontend-fpm:
+        build:
+            context: ./frontend
+            dockerfile: Dockerfile
+        volumes:
+            - ./frontend/:/var/www/
+    frontend-nginx:
+        image: nginx:1.10
+        volumes:
+            - ./frontend/:/var/www/
+            - ./frontend/etc/nginx/default.conf:/etc/nginx/conf.d/default.conf
+        ports:
+            - "8080:80"
+        links:
+            - frontend-fpm
