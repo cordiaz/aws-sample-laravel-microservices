@@ -27,6 +27,7 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 # Create system user to run Composer and Artisan Commands
 # Set working directory
+COPY --chown=www-data:www-data . /var/www
 WORKDIR /var/www
 
 COPY ./docker/fpm/healthcheck.conf /usr/local/etc/php-fpm.d/
