@@ -11,6 +11,6 @@
 |
 */
 
-$router->get('/', function () use ($router) {
-    return $router->app->version();
+$router->get('/', function () {
+    return response()->json(['value' => 'service3 ' . rand(1000, 9999)]);
 });

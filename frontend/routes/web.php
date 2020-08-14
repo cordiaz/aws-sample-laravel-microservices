@@ -1,5 +1,5 @@
 <?php
-
+use App\Http\Controllers\Controller;
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -11,6 +11,4 @@
 |
 */
 
-$router->get('/', function () use ($router) {
-    return $router->app->version();
-});
+$router->get('/', ['uses' => 'Controller@showIndex']);

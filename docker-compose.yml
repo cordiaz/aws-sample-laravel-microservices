@@ -1,10 +1,7 @@
 version: '3'
 
-networks:
-    frontend:
-        driver: bridge
-
 services:
+    ##################################################################
     frontend-fpm:
         build:
             context: ./frontend
@@ -20,3 +17,51 @@ services:
             - "8080:80"
         links:
             - frontend-fpm
+    ##################################################################
+    service1-fpm:
+        build:
+            context: ./service1
+            dockerfile: Dockerfile
+        volumes:
+            - ./service1/:/var/www/
+    service1-nginx:
+        image: nginx:1.10
+        volumes:
+            - ./service1/:/var/www/
+            - ./service1/etc/nginx/default.conf:/etc/nginx/conf.d/default.conf
+        ports:
+            - "8081:80"
+        links:
+            - service1-fpm
+    ##################################################################
+    service2-fpm:
+        build:
+            context: ./service2
+            dockerfile: Dockerfile
+        volumes:
+            - ./service2/:/var/www/
+    service2-nginx:
+        image: nginx:1.10
+        volumes:
+            - ./service2/:/var/www/
+            - ./service2/etc/nginx/default.conf:/etc/nginx/conf.d/default.conf
+        ports:
+            - "8082:80"
+        links:
+            - service2-fpm
+    ##################################################################
+    service3-fpm:
+        build:
+            context: ./service3
+            dockerfile: Dockerfile
+        volumes:
+            - ./service3/:/var/www/
+    service3-nginx:
+        image: nginx:1.10
+        volumes:
+            - ./service3/:/var/www/
+            - ./service3/etc/nginx/default.conf:/etc/nginx/conf.d/default.conf
+        ports:
+            - "8083:80"
+        links:
+            - service3-fpm
