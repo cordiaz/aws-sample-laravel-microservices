@@ -15,7 +15,7 @@ services:
         ports:
             - "8080:80"
         links:
-            - frontend-fpm
+            - frontend-fpm:app
     ##################################################################
     service1-fpm:
         build:
@@ -31,7 +31,7 @@ services:
         ports:
             - "8081:80"
         links:
-            - service1-fpm
+            - service1-fpm:app
     ##################################################################
     service2-fpm:
         build:
@@ -47,7 +47,7 @@ services:
         ports:
             - "8082:80"
         links:
-            - service2-fpm
+            - service2-fpm:app
     ##################################################################
     service3-fpm:
         build:
@@ -63,4 +63,4 @@ services:
         ports:
             - "8083:80"
         links:
-            - service3-fpm
+            - service3-fpm:app
