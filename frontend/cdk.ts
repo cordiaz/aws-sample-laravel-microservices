@@ -37,6 +37,7 @@ export class Service extends cdk.Construct {
 
         this.createNginxContainer(taskDefinition);
         this.createFpmContainer(taskDefinition);
+        this.createXRayContainer(taskDefinition);
         return taskDefinition;
     }
 
@@ -62,6 +63,16 @@ export class Service extends cdk.Construct {
 
         container.addPortMappings({containerPort:9000});
 
+        return container;
+    }
+
+    private createXRayContainer(taskDef: ecs.FargateTaskDefinition) {
+        const container = taskDef.addContainer('xray-daemon', {
+            image: ecs.ContainerImage.fromRegistry('amazon/aws-xray-daemon'),
+            cpu: 32,
+            memoryReservationMiB: 256,
+        })
+        container.addPortMappings({containerPort: 2000, protocol: ecs.Protocol.UDP});
         return container;
     }
 
