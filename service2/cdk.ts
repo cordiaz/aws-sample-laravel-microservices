@@ -5,7 +5,7 @@ import { ServiceProps, shortHealthCheck } from '../cdk/shared';
 
 export class Service extends cdk.Construct {
     public dns: string;
-    
+
     constructor(
         scope: cdk.Construct,
         id: string,
@@ -19,6 +19,7 @@ export class Service extends cdk.Construct {
         const service = new ecsPatterns.ApplicationLoadBalancedFargateService(this, 'Service', {
             cluster: cluster,           
             taskDefinition: taskDefinition,
+            desiredCount: 4,
         });
         this.dns = service.loadBalancer.loadBalancerDnsName;
         service.targetGroup.configureHealthCheck(shortHealthCheck);

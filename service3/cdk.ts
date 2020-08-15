@@ -19,6 +19,7 @@ export class Service extends cdk.Construct {
         const service = new ecsPatterns.ApplicationLoadBalancedFargateService(this, 'Service', {
             cluster: cluster,           
             taskDefinition: taskDefinition,
+            desiredCount: 4,
         });
         
         this.dns = service.loadBalancer.loadBalancerDnsName;

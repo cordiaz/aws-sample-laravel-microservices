@@ -15,17 +15,17 @@ class Controller extends BaseController
         $promises = [$promise1, $promise2, $promise3];
 
         $results = \GuzzleHttp\Promise\settle($promises)->wait();
-
+        
         return response()->json([
-            'service1' => [
+            'service1' => $results[0]['state'] == 'rejected' ? 'failed' : [
                 'value' => $results[0]['value']->value,
                 'ip' => $results[0]['value']->ip,
             ],
-            'service2' => [
+            'service2' => $results[1]['state'] == 'rejected' ? 'failed' : [
                 'value' => $results[1]['value']->value,
                 'ip' => $results[1]['value']->ip,
             ],
-            'service3' => [
+            'service3' => $results[2]['state'] == 'rejected' ? 'failed': [
                 'value' => $results[2]['value']->value,
                 'ip' => $results[2]['value']->ip,
             ],

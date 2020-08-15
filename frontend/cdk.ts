@@ -12,8 +12,9 @@ export class Service extends cdk.Construct {
         id: string,
         props: ServiceProps) {
         super(scope, id);
-        this.createService(props.cluster);
         this.environments = props.environments || {};
+        this.createService(props.cluster);
+        this.output();
     }
 
     private createService(cluster: ecs.Cluster) {
@@ -21,6 +22,7 @@ export class Service extends cdk.Construct {
         const service = new ecsPatterns.ApplicationLoadBalancedFargateService(this, 'Service', {
             cluster: cluster,           
             taskDefinition: taskDefinition,
+            desiredCount: 2,
         });
 
         this.dns = service.loadBalancer.loadBalancerDnsName;
@@ -61,5 +63,9 @@ export class Service extends cdk.Construct {
         container.addPortMappings({containerPort:9000});
 
         return container;
+    }
+
+    private output() {
+        new cdk.CfnOutput(this, 'EnvironmentsValues', { value: JSON.stringify(this.environments) });
     }
 }
