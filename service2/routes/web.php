@@ -12,5 +12,8 @@
 */
 
 $router->get('/', function () {
-    return response()->json(['value' => 'service2 ' . rand(1000, 9999)]);
+    return response()->json([
+        'value' => 'service2 ' . rand(1000, 9999),
+        'ip' => $_SERVER['REMOTE_ADDR'],
+    ]);
 });

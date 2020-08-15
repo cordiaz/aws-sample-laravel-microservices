@@ -4,6 +4,8 @@ import * as ecsPatterns from "@aws-cdk/aws-ecs-patterns";
 import { ServiceProps, shortHealthCheck } from '../cdk/shared';
 
 export class Service extends cdk.Construct {
+    public dns: string;
+
     constructor(
         scope: cdk.Construct,
         id: string,
@@ -18,7 +20,8 @@ export class Service extends cdk.Construct {
             cluster: cluster,           
             taskDefinition: taskDefinition,
         });
-
+        
+        this.dns = service.loadBalancer.loadBalancerDnsName;
         service.targetGroup.configureHealthCheck(shortHealthCheck);
     }
 

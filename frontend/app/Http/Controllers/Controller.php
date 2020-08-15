@@ -17,9 +17,18 @@ class Controller extends BaseController
         $results = \GuzzleHttp\Promise\settle($promises)->wait();
 
         return response()->json([
-            'service1' => $results[0]['value']->value,
-            'service2' => $results[1]['value']->value,
-            'service3' => $results[2]['value']->value,
+            'service1' => [
+                'value' => $results[0]['value']->value,
+                'ip' => $results[0]['value']->ip,
+            ],
+            'service2' => [
+                'value' => $results[1]['value']->value,
+                'ip' => $results[1]['value']->ip,
+            ],
+            'service3' => [
+                'value' => $results[2]['value']->value,
+                'ip' => $results[2]['value']->ip,
+            ],
         ]);
     }
 
@@ -49,7 +58,7 @@ class Controller extends BaseController
         $promise = $client->getAsync($url)->then(function($response) {
             return json_decode($response->getBody());
         });
-        
+
         return $promise;
     }
 }

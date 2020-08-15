@@ -12,17 +12,23 @@ class AppStack extends cdk.Stack {
         super(scope, id, props);
         this.cluster = new ServicesCluster(this, 'ServicesCluster');
         
+        const service1 = new Service1(this, 'Service1', {
+            cluster: this.cluster.cluster  
+        });
+        const service2 = new Service2(this, 'Service2', {
+            cluster: this.cluster.cluster  
+        });
+        const service3 = new Service3(this, 'Service3', {
+            cluster: this.cluster.cluster  
+        });
+
         new FrontendService(this, 'Frontend', {
-            cluster: this.cluster.cluster  
-        });
-        new Service1(this, 'Service1', {
-            cluster: this.cluster.cluster  
-        });
-        new Service2(this, 'Service2', {
-            cluster: this.cluster.cluster  
-        });
-        new Service3(this, 'Service3', {
-            cluster: this.cluster.cluster  
+            cluster: this.cluster.cluster,
+            environments: {
+                SERVICE1_HOST: service1.dns,
+                SERVICE2_HOST: service2.dns,
+                SERVICE3_HOST: service3.dns,
+            }
         });
     }
 }

@@ -6,6 +6,7 @@ import * as servicediscovery from "@aws-cdk/aws-servicediscovery";
 interface ServiceProps {
     cluster: ecs.Cluster
     namespace?: servicediscovery.PrivateDnsNamespace
+    environments?: {}
 }
 
 const shortHealthCheck: elbv2.HealthCheck = {
