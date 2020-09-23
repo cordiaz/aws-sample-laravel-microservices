@@ -30,5 +30,7 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 COPY --chown=www-data:www-data . /var/www
 WORKDIR /var/www
 
+RUN composer install --no-ansi --no-dev --no-interaction --no-plugins --no-progress --no-scripts --no-suggest --optimize-autoloader
+
 COPY ./docker/fpm/healthcheck.conf /usr/local/etc/php-fpm.d/
 HEALTHCHECK --interval=1m --timeout=3s CMD php-fpm-healthcheck || exit 1
